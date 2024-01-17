@@ -36,6 +36,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Snippet::class, orphanRemoval: true)]
     private Collection $snippets;
 
+    #[ORM\ManyToMany(targetEntity: Following::class, mappedBy: 'follower')]
+    private Collection $followings;
+
+    public function __construct()
+    {
+        $this->followings = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -143,6 +151,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($snippet->getAuthor() === $this) {
                 $snippet->setAuthor(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Following>
+     */
+    public function getFollowings(): Collection
+    {
+        return $this->followings;
+    }
+
+    public function addFollowing(Following $following): static
+    {
+        if (!$this->followings->contains($following)) {
+            $this->followings->add($following);
+            $following->addFollower($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollowing(Following $following): static
+    {
+        if ($this->followings->removeElement($following)) {
+            $following->removeFollower($this);
         }
 
         return $this;
