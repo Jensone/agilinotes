@@ -36,19 +36,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Snippet::class, orphanRemoval: true)]
     private Collection $snippets;
 
-    #[ORM\ManyToMany(targetEntity: Following::class, mappedBy: 'follower')]
-    private Collection $followers;
-
-    #[ORM\ManyToMany(targetEntity: Following::class, mappedBy: 'followings')]
-    private Collection $followings;
-
-    public function __construct()
-    {
-        $this->snippets = new ArrayCollection();
-        $this->followers = new ArrayCollection();
-        $this->followings = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -156,60 +143,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($snippet->getAuthor() === $this) {
                 $snippet->setAuthor(null);
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Following>
-     */
-    public function getFollowers(): Collection
-    {
-        return $this->followers;
-    }
-
-    public function addFollower(Following $follower): static
-    {
-        if (!$this->followers->contains($follower)) {
-            $this->followers->add($follower);
-            $follower->addFollowers($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFollower(Following $follower): static
-    {
-        if ($this->followers->removeElement($follower)) {
-            $follower->removeFollowers($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Following>
-     */
-    public function getFollowings(): Collection
-    {
-        return $this->followings;
-    }
-
-    public function addFollowing(Following $following): static
-    {
-        if (!$this->followings->contains($following)) {
-            $this->followings->add($following);
-            $following->addFollowing($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFollowing(Following $following): static
-    {
-        if ($this->followings->removeElement($following)) {
-            $following->removeFollowing($this);
         }
 
         return $this;
