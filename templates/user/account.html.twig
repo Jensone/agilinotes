@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Les membres de la communauté
+{% endblock %}
+
+<!--
+// v0 by Vercel.
+// https://v0.dev/t/KowUiQyMiRQ
+-->
+<div class="w-full max-w-2xl mx-auto p-4 md:p-6">
+	<div class="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-10">
+		<div class="w-24 h-24 md:w-32 md:h-32">
+			<span class="relative flex shrink-0 overflow-hidden rounded-full w-full h-full">
+				<span class="flex h-full w-full items-center justify-center rounded-full bg-muted">UN</span>
+			</span>
+		</div>
+		<div class="flex-1 space-y-2">
+			<h1 class="text-2xl font-bold">User's Name</h1>
+			<p class="text-gray-500 dark:text-gray-400">
+				This is a user bio. It might include information about the user's interests, location, or anything else they want to share!
+			</p>
+			<div class="flex items-center gap-4">
+				<div class="flex items-center gap-1">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+						<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+						<circle cx="9" cy="7" r="4"></circle>
+						<path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+						<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+					</svg>
+					<span>1.5k followers</span>
+				</div>
+				<div class="flex items-center gap-1">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+						<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+						<circle cx="9" cy="7" r="4"></circle>
+						<line x1="19" x2="19" y1="8" y2="14"></line>
+						<line x1="22" x2="16" y1="11" y2="11"></line>
+					</svg>
+					<span>500 following</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6">
+		<div><img src="/placeholder.svg" alt="User post" width="300" height="300" class="w-full h-64 object-cover rounded-lg" style="aspect-ratio: 300 / 300; object-fit: cover;"></div>
+		<div><img src="/placeholder.svg" alt="User post" width="300" height="300" class="w-full h-64 object-cover rounded-lg" style="aspect-ratio: 300 / 300; object-fit: cover;"></div>
+		<div><img src="/placeholder.svg" alt="User post" width="300" height="300" class="w-full h-64 object-cover rounded-lg" style="aspect-ratio: 300 / 300; object-fit: cover;"></div>
+		<div><img src="/placeholder.svg" alt="User post" width="300" height="300" class="w-full h-64 object-cover rounded-lg" style="aspect-ratio: 300 / 300; object-fit: cover;"></div>
+		<div><img src="/placeholder.svg" alt="User post" width="300" height="300" class="w-full h-64 object-cover rounded-lg" style="aspect-ratio: 300 / 300; object-fit: cover;"></div>
+		<div></div>
+	</div>
+</div>{% endblock %}
