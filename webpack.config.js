@@ -13,6 +13,10 @@ Encore
     .setPublicPath('/build')
     // only needed for CDN's or subdirectory deploy
     //.setManifestKeyPrefix('build/')
+    
+    // PostCSS for Tailwind
+    .enablePostCssLoader()
+
 
     /*
      * ENTRY CONFIG
