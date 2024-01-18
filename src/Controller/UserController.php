@@ -3,18 +3,39 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\UserRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Route('/u')]
 class UserController extends AbstractController
 {
-    #[Route('/u/{username}', name: 'author')]
+    #[Route('/', name: 'users')]
+    public function users(
+        Request $request,
+        UserRepository $userRepository,
+        PaginatorInterface $paginator
+    ): Response
+    {
+        $users = $paginator->paginate(
+            $userRepository->findAll(),
+            $request->query->getInt('page', 1),
+            6
+        );
+        return $this->render('user/users.html.twig', [
+            'users' => $users
+        ]);
+    }
+    
+    #[Route('/{username}', name: 'author')]
     public function author(
         User $user
     ): Response
     {
-        return $this->render('user/index.html.twig', [
+        return $this->render('user/author.html.twig', [
             'author' => $user
         ]);
     }
