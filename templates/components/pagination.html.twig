@@ -2,7 +2,7 @@
 	<div class="inline-block">
 		<div class="flex items-baseline flex-row rounded-sm w-auto">
 			{% if first is defined and current != first %}
-				<span class="bg-white text-dark-600 px-8 text-lg font-bold">
+				<span class="bg-white text-dark-600 px-8 text-lg">
 					<a href="{{ path(route, query|merge({(pageParameterName): first})) }}">
 						début
 					</a>
@@ -32,7 +32,7 @@
 			{% endif %}
 
 			{% if last is defined and current != last %}
-				<span class="bg-white text-dark-600 px-8 text-lg font-bold">
+				<span class="bg-white text-dark-600 px-8 text-lg">
 					<a href="{{ path(route, query|merge({(pageParameterName): last})) }}">
 						fin
 					</a>
