@@ -22,7 +22,7 @@
 						</div>
 						<div class="group relative">
 							<h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-								<a href="#">
+								<a href={{ path('snippet', {'slug': item.slug }) }}>
 									<span class="absolute inset-0"></span>
 									{{ item.title }}
 								</a>
@@ -35,7 +35,7 @@
 							<img src="{{ asset('/images/users/') }}{{ item.author.image }}" alt="{{ item.author.username }}" class="h-10 w-10 rounded-full bg-gray-50">
 							<div class="text-sm leading-6">
 								<p class="font-semibold text-gray-900">
-									<a href="#">
+									<a href={{ path('author', {'username': item.author.username }) }}>
 										<span class="absolute inset-0"></span>
 										{{ item.author.username }}
 									</a>

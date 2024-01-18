@@ -1,29 +1,41 @@
 {% if pageCount > 1 %}
 	<div class="inline-block">
-		<div class="flex items-baseline flex-row border border-gray-400 rounded-sm w-auto">
+		<div class="flex items-baseline flex-row rounded-sm w-auto">
 			{% if first is defined and current != first %}
-				<span class="bg-white text-dark-600 px-3 py-2 text-lg border-r border-gray-400 font-bold">
+				<span class="bg-white text-dark-600 px-8 text-lg font-bold">
 					<a href="{{ path(route, query|merge({(pageParameterName): first})) }}">
-                        &larr;
-                    </a>
+						début
+					</a>
+				</span>
+			{% endif %}
+
+			{% if previous is defined %}
+				<span class="bg-white text-blue-600 px-3 text-lg">
+					<a rel="prev" href="{{ path(route, query|merge({(pageParameterName): previous})) }}">&larr;</a>
 				</span>
 			{% endif %}
 
 			{% for page in pagesInRange %}
 				{% if page != current %}
-					<span class="bg-white text-dark-600 px-3 py-2 text-lg border-r border-gray-400">
+					<span class="bg-white text-dark-600 px-8 text-lg rounded-full">
 						<a href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
 					</span>
 				{% else %}
-					<span class="bg-gray-900 text-white px-3 py-2 text-lg font-bold">{{ page }}</span>
+					<span class="bg-gray-900 text-white px-8 text-lg rounded-full font-bold">{{ page }}</span>
 				{% endif %}
 			{% endfor %}
 
+			{% if next is defined %}
+				<span class="bg-white text-blue-600 px-3 text-lg">
+					<a rel="next" href="{{ path(route, query|merge({(pageParameterName): next})) }}">&rarr;</a>
+				</span>
+			{% endif %}
+
 			{% if last is defined and current != last %}
-				<span class="bg-white text-dark-600 px-3 py-2 text-lg border-gray-400 font-bold">
+				<span class="bg-white text-dark-600 px-8 text-lg font-bold">
 					<a href="{{ path(route, query|merge({(pageParameterName): last})) }}">
-                        &rarr;
-                    </a>
+						fin
+					</a>
 				</span>
 			{% endif %}
 		</div>
