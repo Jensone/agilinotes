@@ -15,6 +15,8 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
+        $pp = ['default-1.jpg', 'default-2.jpg'];
+
         // Admin
         $amdin = new User();
         $amdin->setEmail('admin@agilinote.fr')
@@ -22,6 +24,7 @@ class AppFixtures extends Fixture
             ->setPassword('$2y$13$4sr2MBkP1lmtRk1Vv4CY/OcioigqTACDskCFFtwhikydLCRx9HP.G')
             ->setRoles(['ROLE_ADMIN'])
             ->setJob('Développeur Full Stack')
+            ->setImage($faker->randomElement($pp))
             ->setCreatedAt($faker->dateTimeBetween('-10 months'));
         $manager->persist($amdin);
 
@@ -34,6 +37,7 @@ class AppFixtures extends Fixture
                 ->setPassword('$2y$13$4sr2MBkP1lmtRk1Vv4CY/OcioigqTACDskCFFtwhikydLCRx9HP.G')
                 ->setRoles(['ROLE_USER'])
                 ->setJob($faker->jobTitle)
+                ->setImage($faker->randomElement($pp))
                 ->setCreatedAt($faker->dateTimeBetween('-9 months'));
             $manager->persist($user);
             array_push($usersArray, $user);
