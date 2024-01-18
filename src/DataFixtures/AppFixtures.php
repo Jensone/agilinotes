@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Following;
 use Faker\Factory;
 use App\Entity\User;
 use App\Entity\Snippet;
@@ -21,7 +20,9 @@ class AppFixtures extends Fixture
         $amdin->setEmail('admin@agilinote.fr')
             ->setUsername('Admin')
             ->setPassword('$2y$13$4sr2MBkP1lmtRk1Vv4CY/OcioigqTACDskCFFtwhikydLCRx9HP.G')
-            ->setRoles(['ROLE_ADMIN']);
+            ->setRoles(['ROLE_ADMIN'])
+            ->setJob('Développeur Full Stack')
+            ->setCreatedAt($faker->dateTimeBetween('-10 months'));
         $manager->persist($amdin);
 
         // User
@@ -31,15 +32,29 @@ class AppFixtures extends Fixture
             $user->setEmail('user' . $i . '@agilinote.fr')
                 ->setUsername($faker->userName)
                 ->setPassword('$2y$13$4sr2MBkP1lmtRk1Vv4CY/OcioigqTACDskCFFtwhikydLCRx9HP.G')
-                ->setRoles(['ROLE_USER']);
+                ->setRoles(['ROLE_USER'])
+                ->setJob($faker->jobTitle)
+                ->setCreatedAt($faker->dateTimeBetween('-9 months'));
             $manager->persist($user);
             array_push($usersArray, $user);
         }
 
+        // Followings
+        for ($i = 0; $i < 30; $i++) {
+            $follower = $faker->randomElement($usersArray);
+            $followed = $faker->randomElement($usersArray);
+
+            if ($follower != $followed) {
+                $follower->follow($followed);
+
+                $manager->persist($follower);
+            }
+        }
+
         // Languages
         $languages = array(
-            'HTML',
-            'CSS',
+            'HTML5',
+            'CSS3',
             'JavaScript',
             'PHP',
             'Python',
@@ -67,34 +82,35 @@ class AppFixtures extends Fixture
                 $lang = str_replace('+', 'plus', $lang);
             } elseif ($lang == 'Autre') {
                 $lang = 'devicon';
+            } elseif ($lang == 'SQL') {
+                $lang = 'mysql';
             }
-            $language->setIcon('https://cdn.jsdelivr.net/gh/devicons/devicon/icons/' . strtolower($lang) . '/' . strtolower($lang) .  '-original.svg');
+            $language->setIcon(
+                'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/'
+                    . strtolower($lang)
+                    . '/'
+                    . strtolower($lang)
+                    . ($lang == 'Rust' ? '-plain.svg' : '-original.svg')
+            );
             $manager->persist($language);
             array_push($languagesArray, $language);
         }
 
         // Snippets
-        for ($i=0; $i < 100; $i++) { 
+        for ($i = 0; $i < 100; $i++) {
             $snippet = new Snippet();
-            $snippet->setTitle($faker->text(120))
+            $snippet->setTitle($faker->text(50))
                 ->setLanguage($faker->randomElement($languagesArray))
                 ->setAuthor($faker->randomElement($usersArray))
+                ->setDescription($faker->text(200))
                 ->setContent($faker->text(500))
                 ->setCreatedAt($faker->dateTimeBetween('-6 months'))
                 ->setIsPublished($faker->boolean(90))
-                ->setIsPublic($faker->boolean(50))
-                ;
+                ->setIsPublic($faker->boolean(50));
             $manager->persist($snippet);
         }
 
-        // Followings
-        for ($i=0; $i < 40; $i++) { 
-            $following = new Following();
-            $following->addFollower($faker->randomElement($usersArray));
-            
-            $manager->persist($following);
-        }
-
+        // Launch
         $manager->flush();
     }
 }

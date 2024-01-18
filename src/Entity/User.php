@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -36,12 +38,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Snippet::class, orphanRemoval: true)]
     private Collection $snippets;
 
-    #[ORM\ManyToMany(targetEntity: Following::class, mappedBy: 'follower')]
-    private Collection $followings;
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'followers')]
+    private Collection $following;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'following')]
+    #[ORM\JoinTable(name: 'following_follower')]
+    private Collection $followers;
+
+    #[ORM\Column(length: 180, nullable: true)]
+    private ?string $job = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $createdAt = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = 'default.png';
 
     public function __construct()
     {
-        $this->followings = new ArrayCollection();
+        $this->following = new ArrayCollection();
+        $this->followers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -156,29 +172,64 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Following>
-     */
-    public function getFollowings(): Collection
+    public function follow(User $userToFollow): self
     {
-        return $this->followings;
-    }
-
-    public function addFollowing(Following $following): static
-    {
-        if (!$this->followings->contains($following)) {
-            $this->followings->add($following);
-            $following->addFollower($this);
+        if (!$this->following->contains($userToFollow)) {
+            $this->following[] = $userToFollow;
         }
 
         return $this;
     }
 
-    public function removeFollowing(Following $following): static
+    public function unfollow(User $userToUnfollow): self
     {
-        if ($this->followings->removeElement($following)) {
-            $following->removeFollower($this);
-        }
+        $this->following->removeElement($userToUnfollow);
+
+        return $this;
+    }
+
+    public function getFollowing(): Collection
+    {
+        return $this->following;
+    }
+
+    public function getFollowers(): Collection
+    {
+        return $this->followers;
+    }
+
+    public function getJob(): ?string
+    {
+        return $this->job;
+    }
+
+    public function setJob(?string $job): static
+    {
+        $this->job = $job;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }
