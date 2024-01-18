@@ -52,7 +52,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $image = 'default.png';
+    private ?string $image = 'default-1.png';
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $link = null;
 
     public function __construct()
     {
@@ -230,6 +233,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setImage(?string $image): static
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+
+    public function setLink(?string $link): static
+    {
+        $this->link = $link;
 
         return $this;
     }

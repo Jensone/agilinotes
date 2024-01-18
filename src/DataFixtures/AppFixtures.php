@@ -25,6 +25,7 @@ class AppFixtures extends Fixture
             ->setRoles(['ROLE_ADMIN'])
             ->setJob('Développeur Full Stack')
             ->setImage($faker->randomElement($pp))
+            ->setLink('https://agiliteach.fr')
             ->setCreatedAt($faker->dateTimeBetween('-10 months'));
         $manager->persist($amdin);
 
@@ -38,6 +39,7 @@ class AppFixtures extends Fixture
                 ->setRoles(['ROLE_USER'])
                 ->setJob($faker->jobTitle)
                 ->setImage($faker->randomElement($pp))
+                ->setLink($faker->url)
                 ->setCreatedAt($faker->dateTimeBetween('-9 months'));
             $manager->persist($user);
             array_push($usersArray, $user);
@@ -104,6 +106,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 100; $i++) {
             $snippet = new Snippet();
             $snippet->setTitle($faker->text(50))
+                ->setSlug(uniqid())
                 ->setLanguage($faker->randomElement($languagesArray))
                 ->setAuthor($faker->randomElement($usersArray))
                 ->setDescription($faker->text(200))
