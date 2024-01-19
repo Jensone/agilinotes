@@ -10,7 +10,7 @@
 			<div class="max-w-2xl">
 				<h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Les membres d'Agilinotes</h2>
 				<p class="mt-6 text-lg leading-8 text-gray-600">Liste de tous les membres de la communauté. Rejoins-nous l'inscription est gratuite et profite de fonctionnalités pour améliorer ton workflow.</p>
-				<a href="#" class="mt-8 inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">Rejoindre la communauté</a>
+				<a href={{ path('app_login') }} class="mt-8 inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">Rejoindre la communauté</a>
 			</div>
 			<ul role="list" class="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
 				{% for item in users %}

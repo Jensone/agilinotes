@@ -1,4 +1,4 @@
-<header class="bg-white">
+<header class="relative z-10">
 	<nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
 		<div class="flex lg:flex-1">
 			<a href={{ path('home') }} class="-m-1.5 p-1.5">
@@ -19,9 +19,15 @@
 			<a href={{ path('users') }} class="text-sm font-semibold leading-6 text-gray-900">Communauté</a>
 		</div>
 		<div class="hidden lg:flex lg:flex-1 lg:justify-end">
-			<a href="#" class="text-sm font-semibold leading-6 text-gray-900">Connexion
-				<span aria-hidden="true">&rarr;</span>
-			</a>
+			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+				<a href={{ path('app_logout') }} class="text-sm font-semibold leading-6 bg-gray-800 ml-4 p-1 px-2 rounded text-white underline-offset-1">
+					Mon compte
+				</a>
+			{% else %}
+				<a href={{ path('app_login') }} class="text-sm font-semibold leading-6 text-gray-900">Connexion
+					<span aria-hidden="true">&rarr;</span>
+				</a>
+			{% endif %}
 		</div>
 	</nav>
 	<!-- Mobile menu, show/hide based on menu open state. -->
